@@ -1,0 +1,16 @@
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+.bak
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+#database file
+*.db
+#log file
+*.log
