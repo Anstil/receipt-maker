@@ -1,7 +1,7 @@
 target/
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+**/out/
 .bak
 
 ### IntelliJ IDEA ###
