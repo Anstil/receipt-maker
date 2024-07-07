@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface FileParser {
 
-    List<List<String>> read(String filePath);
+    List<List<String>> readFile(String filePath);
 }

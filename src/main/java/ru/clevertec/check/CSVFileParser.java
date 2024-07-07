@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class CSVFileParser implements FileParser {
 
     @Override
-    public List<List<String>> read(String filePath) {
+    public List<List<String>> readFile(String filePath) {
         List<List<String>> fileData = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -21,7 +21,6 @@ public class CSVFileParser implements FileParser {
                 fileData.add(splitLine);
             });
         } catch (IOException e) {
-//            TO DO logging an error to a file
             e.getStackTrace();
             System.out.println("BAD REQUEST");
         }

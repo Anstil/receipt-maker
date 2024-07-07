@@ -17,13 +17,4 @@ public class CSVFileCreator implements FileCreator {
             e.getStackTrace();
         }
     }
-
-    public void create(String fileName, String fileData){
-        try (FileWriter csvWriter = new FileWriter(fileName)) {
-            csvWriter.append(fileData);
-            csvWriter.append("\n");
-        }catch (IOException e){
-            e.getStackTrace();
-        }
-    }
 }
