@@ -7,7 +7,7 @@ import java.util.List;
 public class CSVFileCreator implements FileCreator {
 
     @Override
-    public void create(String fileName, List<List<String>> fileData) {
+    public void createFile(String fileName, List<List<String>> fileData) {
         try (FileWriter csvWriter = new FileWriter(fileName)) {
             for (List<String> rowData : fileData) {
                 csvWriter.append(String.join(";", rowData));
