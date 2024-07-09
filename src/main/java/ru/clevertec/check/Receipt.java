@@ -1,16 +1,17 @@
 package main.java.ru.clevertec.check;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 public final class Receipt {
 
     private Map<Product, Integer> products;
+    List<List<String>> listOfProducts;
 
     private String date;
     private String time;
     private int discountAmount = 0;
     private int wholesaleDiscount = 0;
-    private String unitOfAccount = "";
 
     public void setDate(String date) {
         this.date = date;
@@ -32,10 +33,6 @@ public final class Receipt {
         this.wholesaleDiscount = wholesaleDiscount;
     }
 
-    public void setUnitOfAccount(String unitOfAccount) {
-        this.unitOfAccount = unitOfAccount;
-    }
-
     public List<String> getDateAndTimeOfPayment() {
         List<String> dateAndTime = new ArrayList<>();
         dateAndTime.add(date);
@@ -44,40 +41,41 @@ public final class Receipt {
     }
 
     public List<List<String>> getStringListOfProducts() {
-        List<List<String>> listOfProducts = new ArrayList<>();
+        listOfProducts = new ArrayList<>();
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
         int i = 0;
         for (Map.Entry<Product, Integer> entry : products.entrySet()) {
             double productPrice = entry.getKey().price();
             int productQuantity = entry.getValue();
-            double discount = entry.getKey().isWholesaleProduct() ? entry.getKey().price() * wholesaleDiscount * 0.01 : entry.getKey().price() * discountAmount * 0.01;
+            double discount = entry.getKey().isWholesaleProduct()
+                    ? Double.parseDouble(decimalFormat.format(productPrice * wholesaleDiscount * 0.01).replaceFirst(",", "."))
+                    : Double.parseDouble(decimalFormat.format(productPrice * discountAmount * 0.01).replaceFirst(",", "."));
+            double total = Double.parseDouble(decimalFormat.format(productQuantity * (productPrice - discount)).replaceFirst(",", "."));
             listOfProducts.add(new ArrayList<>());
             listOfProducts.get(i).add(String.valueOf(productQuantity));
             listOfProducts.get(i).add(entry.getKey().description());
-            listOfProducts.get(i).add(String.valueOf(productPrice).replaceFirst("\\.", ","));
-            listOfProducts.get(i).add(String.valueOf(discount).replaceFirst("\\.", ","));
-            listOfProducts.get(i).add(String.valueOf(productQuantity * (productPrice - discount)).replaceFirst("\\.", ","));
+            listOfProducts.get(i).add(decimalFormat.format(productPrice));
+            listOfProducts.get(i).add(decimalFormat.format(discount));
+            listOfProducts.get(i).add(String.valueOf(total).replaceFirst("\\.", ","));
             i++;
         }
         return listOfProducts;
     }
 
-    public List<String> getPrice() {
+    public List<String> getTotalPrice() {
         List<String> priceResult = new ArrayList<>();
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
         double totalPrice = 0;
         double totalDiscount = 0;
         double total;
-        for (Map.Entry<Product, Integer> entry : products.entrySet()) {
-            double productPrice = entry.getKey().price();
-            int productQuantity = entry.getValue();
-            totalPrice += productPrice * productQuantity;
-            if (entry.getKey().isWholesaleProduct()) {
-                totalDiscount += productPrice * productQuantity * wholesaleDiscount * 0.01;
-            } else totalDiscount += productPrice * productQuantity * discountAmount * 0.01;
+        for (List<String> product : listOfProducts) {
+            totalPrice += Double.parseDouble(product.get(2).replaceFirst(",", ".")) * Integer.parseInt(product.get(0));
+            totalDiscount+= Double.parseDouble(product.get(3).replaceFirst(",", ".")) * Integer.parseInt(product.get(0));
         }
         total = totalPrice - totalDiscount;
-        priceResult.add(String.valueOf(totalPrice).replaceFirst("\\.", ",") + unitOfAccount);
-        priceResult.add(String.valueOf(totalDiscount).replaceFirst("\\.", ",") + unitOfAccount);
-        priceResult.add(total + unitOfAccount);
+        priceResult.add(decimalFormat.format(totalPrice));
+        priceResult.add(decimalFormat.format(totalDiscount));
+        priceResult.add(decimalFormat.format(total));
         return priceResult;
     }
 }

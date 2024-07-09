@@ -11,9 +11,8 @@ public class DiscountCardStorage extends AbstractStorage<DiscountCard> {
     @Override
     protected void fillStorageFromList() {
         for (List<String> row : fileData) {
-            storage.put(Long.parseLong(row.get(0)),
-                    new DiscountCard(Long.parseLong(row.get(0)),
-                            Integer.parseInt(row.get(1)),
+            storage.put(Long.parseLong(row.get(1)),
+                    new DiscountCard(Long.parseLong(row.get(1)),
                             Integer.parseInt(row.get(2))));
         }
     }
