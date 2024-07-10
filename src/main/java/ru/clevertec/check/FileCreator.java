@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface FileCreator {
 
-    void createFile(String fileName, List<List<String>> fileData);
+    void writeFile(String fileName, List<List<String>> fileData, boolean appendData);
 }

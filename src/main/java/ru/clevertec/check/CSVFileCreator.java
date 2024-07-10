@@ -7,12 +7,13 @@ import java.util.List;
 public class CSVFileCreator implements FileCreator {
 
     @Override
-    public void createFile(String fileName, List<List<String>> fileData) {
-        try (FileWriter csvWriter = new FileWriter(fileName)) {
+    public void writeFile(String fileName, List<List<String>> fileData, boolean appendData) {
+        try (FileWriter csvWriter = new FileWriter(fileName + ".csv", appendData)) {
             for (List<String> rowData : fileData) {
                 csvWriter.append(String.join(";", rowData));
                 csvWriter.append("\n");
             }
+            csvWriter.append("\n");
         } catch (IOException e) {
             e.getStackTrace();
         }
