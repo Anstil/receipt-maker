@@ -14,7 +14,7 @@ To build the packages, follow these steps:
 # Visit https://git-scm.com to download and install console Git if not already installed
 
 # Clone the repository
-git clone
+git clone git@github.com:Anstil/receipt-maker.git
 
 # Check the installed version of JDK
 java -version
