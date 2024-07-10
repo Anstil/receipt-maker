@@ -68,14 +68,19 @@ public final class Receipt {
         double totalPrice = 0;
         double totalDiscount = 0;
         double total;
-        for (List<String> product : listOfProducts) {
-            totalPrice += Double.parseDouble(product.get(2).replaceFirst(",", ".")) * Integer.parseInt(product.get(0));
-            totalDiscount+= Double.parseDouble(product.get(3).replaceFirst(",", ".")) * Integer.parseInt(product.get(0));
+        for (Map.Entry<Product, Integer> entry : products.entrySet()) {
+            double productPrice = entry.getKey().price();
+            int productQuantity = entry.getValue();
+            totalPrice += Double.parseDouble(decimalFormat.format(productPrice * productQuantity).replaceFirst(",", "."));
+            double discount = entry.getKey().isWholesaleProduct()
+                    ? Double.parseDouble(decimalFormat.format(productPrice * wholesaleDiscount * 0.01).replaceFirst(",", "."))
+                    : Double.parseDouble(decimalFormat.format(productPrice * discountAmount * 0.01).replaceFirst(",", "."));
+            totalDiscount = Double.parseDouble(decimalFormat.format(discount * productQuantity).replaceFirst(",", "."));
         }
-        total = totalPrice - totalDiscount;
-        priceResult.add(decimalFormat.format(totalPrice));
-        priceResult.add(decimalFormat.format(totalDiscount));
-        priceResult.add(decimalFormat.format(total));
+        total = Double.parseDouble(decimalFormat.format(totalPrice - totalDiscount).replaceFirst(",", "."));
+        priceResult.add(String.valueOf(totalPrice).replaceFirst("\\.", ","));
+        priceResult.add(String.valueOf(totalDiscount).replaceFirst("\\.", ","));
+        priceResult.add(String.valueOf(total).replaceFirst("\\.", ","));
         return priceResult;
     }
 }
