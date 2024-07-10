@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class ProductStorage extends AbstractStorage<Product> {
 
-    ProductStorage(FileParser fileParser, String filePath) {
+    public ProductStorage(FileParser fileParser, String filePath) {
         super(fileParser, filePath);
     }
 
