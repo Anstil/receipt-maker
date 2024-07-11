@@ -21,7 +21,7 @@ public class CheckRunner {
         for (String arg : args) {
             if (arg.matches("\\d+-\\d+")) {
                 List<String> entry = Arrays.asList(arg.split("-"));
-                productList.put(productStorage.getStorage().get(Long.parseLong(entry.get(0))), Integer.parseInt(entry.get(0)));
+                productList.put(productStorage.getStorage().get(Long.parseLong(entry.get(0))), Integer.parseInt(entry.get(1)));
             } else if (arg.matches("discountCard=\\d+")) {
                 discountId = Long.parseLong(arg.replaceAll("\\D+", ""));
             } else if (arg.matches("balanceDebitCard=\\d+")) {
