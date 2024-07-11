@@ -22,7 +22,6 @@ public class CSVFileParser implements FileParser {
             });
         } catch (IOException e) {
             e.getStackTrace();
-            System.out.println("BAD REQUEST");
         }
         return fileData;
     }
